@@ -1,0 +1,22 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const multer_1 = __importDefault(require("multer"));
+const multer_2 = __importDefault(require("./config/multer"));
+const PointsController_1 = __importDefault(require("./controllers/PointsController"));
+const ItemsController_1 = __importDefault(require("./controllers/ItemsController"));
+const routes = express_1.default.Router();
+const upload = (0, multer_1.default)(multer_2.default);
+const pointsController = new PointsController_1.default();
+const itemsController = new ItemsController_1.default();
+routes.get('/items', itemsController.index);
+routes.get('/pintores', pointsController.index);
+routes.get('/pintores/:id', pointsController.show);
+routes.get('/home', pointsController.home);
+routes.delete('/delete/:id', pointsController.delete);
+routes.put('/validar/:id', pointsController.validar);
+routes.post('/pintores', upload.single('image'), pointsController.create);
+exports.default = routes;
